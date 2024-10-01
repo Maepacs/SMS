@@ -1,0 +1,121 @@
+* {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.image-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.image-container img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+h1,
+h3 {
+    font-family: Arial, sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    color: black;
+    text-shadow: 2px 2px 4px white;
+    margin-bottom: 10px;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    background: linear-gradient(135deg, rgba(36, 46, 77, 0.9), rgba(137, 126, 121, 0.9));
+    font-family: 'Roboto', helvetica, arial, sans-serif;
+    font-size: 1.5em;
+}
+
+.reg-form {
+    width: 50%;
+    max-width: 500px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.flex-row {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.rf--label {
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f6f8;
+    cursor: pointer;
+}
+
+.rf--input {
+    flex: 1;
+    padding: 10px;
+    border: 0;
+    color: #8f8f8f;
+    font-size: 1rem;
+}
+
+.rf--input:focus {
+    outline: none;
+    transition: transform 0.15s ease;
+    transform: scale(1.1);
+}
+
+.rf--submit {
+    display: block;
+    padding: 10px;
+    width: 100%;
+    background: linear-gradient(to right, #35c3c1, #00d6b7);
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.75em;
+    font-weight: 600;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.rf--submit:focus {
+    outline: none;
+    transition: transform 0.15s ease;
+    transform: scale(1.1);
+}
+
+.lf--note {
+    margin-top: 1em;
+    color: #00d6b7;
+    font-size: 0.65em;
+    text-align: center;
+    position: relative;
+    transition: transform 0.2s ease;
+    /* add transition */
+}
+
+.lf--note:hover {
+    transform: scale(1.1);
+    /* zoom in by 10% */
+    cursor: pointer;
+}
+
+::placeholder {
+    color: #8f8f8f;
+}
