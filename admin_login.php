@@ -29,9 +29,10 @@
     </label>
     <input id="password" class='lf--input' placeholder='Password' type='password'>
   </div>
-  <input class='lf--submit' type='submit' value='LOGIN'>
+  <input class='lf--submit' type='submit' value='LOGIN'><br>
+  <center><a class='lf--note' href='#'>Forgot password?</a></center>
 </form>
-<a class='lf--note' href='#'>Forgot password?</a>
-<a class='lf--note' href='register.php'>Register</a>
+    <small>Don't have an account? <span><a class="lf--note" href="register.php">Register Here</a></small> 
+
 </body>
 </html>
