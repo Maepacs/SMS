@@ -12,7 +12,7 @@ if (isset($_SESSION['username'])) {
         session_destroy();
 
         // Redirect to login page
-        header("Location: login.php");
+        header("Location: admin_login.php");
         exit;
     } else {
         // Ask for confirmation using JavaScript
@@ -32,7 +32,7 @@ if (isset($_SESSION['username'])) {
     }
 } else {
     // If user is not logged in, redirect to login page
-    header("Location: login.php");
+    header("Location: admin_login.php");
     exit;
 }
 ?>
