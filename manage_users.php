@@ -227,6 +227,15 @@ $result = mysqli_query($conn, $query);
         button[type="submit"]:hover {
             background-color: #2980b9; /* Darker blue on hover */
         }
+
+        /* Loading message styles */
+        .loading-message {
+            display: none; /* Hidden by default */
+            font-size: 1.2rem;
+            color: #3498db;
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -296,9 +305,6 @@ $result = mysqli_query($conn, $query);
                 <span class="close">&times;</span>
                 <h2>Register New User</h2>
                 <form id="registerForm" method="POST" action="register_user.php">
-                    <label for="fullname">Full Name:</label>
-                    <input id="fullname" name="fullname" type="text" required>
-
                     <label for="email">Email:</label>
                     <input id="email" name="email" type="email" required>
 
@@ -317,6 +323,7 @@ $result = mysqli_query($conn, $query);
 
                     <button type="submit">Register User</button>
                 </form>
+                <div id="loadingMessage" class="loading-message">User is being added...</div>
             </div>
         </div>
     </div>
@@ -333,6 +340,7 @@ $result = mysqli_query($conn, $query);
             var modal = document.getElementById("myModal");
             var btn = document.getElementById("registerBtn");
             var span = document.getElementsByClassName("close")[0];
+            var loadingMessage = $("#loadingMessage");
 
             btn.onclick = function() {
                 modal.style.display = "block";
@@ -347,6 +355,11 @@ $result = mysqli_query($conn, $query);
                     modal.style.display = "none";
                 }
             }
+
+            // Show loading message on form submission
+            $("#registerForm").on("submit", function() {
+                loadingMessage.show(); // Show the loading message
+            });
         });
     </script>
 </body>
