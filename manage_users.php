@@ -17,6 +17,7 @@ $result = mysqli_query($conn, $query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
     <!-- Include DataTables CSS and jQuery -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
     <style>
@@ -246,13 +247,13 @@ $result = mysqli_query($conn, $query);
 
     <!-- Side panel -->
     <div class="side-panel">
-        <a href="dashboard.php">Dashboard</a>
-        <a href="manage_users.php">Manage Users</a>
-        <a href="manage_students.php">Manage Students</a>
-        <a href="manage_teachers.php">Manage Teachers</a>
-        <a href="view_reports.php">View Reports</a>
-        <a href="settings.php">Settings</a>
-        <a href="logout.php">Logout</a>
+    <a href="admin_dashboard.php"><i class="ri-dashboard-line"></i> Dashboard</a>
+    <a href="manage_users.php"><i class="ri-user-3-fill"></i> Manage Users</a>
+    <a href="manage_students.php"><i class="ri-user-5-fill"></i> Manage Students</a>
+    <a href="manage_teachers.php"><i class="ri-user-2-fill"></i> Manage Teachers</a>
+    <a href="view_reports.php"><i class="ri-file-copy-2-line"></i> View Reports</a>
+    <a href="settings.php"><i class="ri-equalizer-line"></i> Settings</a>
+    <a href="logout.php"><i class="ri-logout-box-line"></i> Logout</a>
     </div>
 
     <!-- Main content -->
