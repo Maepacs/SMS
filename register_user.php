@@ -15,12 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bind_param("ssss", $email, $username, $password, $role);
 
     // Execute the query and send a JSON response
-    if ($stmt->execute()) {
-        echo json_encode(['success' => true, 'message' => 'User has been added successfully.']);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Failed to add user.']);
-    }
-
+   if ($stmt->execute()) {
+    echo "<script>alert('User  has been added successfully.'); window.location.href='manage_users.php';</script>";
+} else {
+    echo "<script>alert('Failed to add user.');</script>";
+}
     // Close the prepared statement and database connection
     $stmt->close();
     $conn->close();
