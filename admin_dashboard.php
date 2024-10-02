@@ -22,7 +22,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
 
         /* Navbar styles */
         .navbar {
-            background-color: #333;
+            background-color: #3498db ;
             color: white;
             padding: 1rem;
             text-align: center;
@@ -83,7 +83,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
 
     <!-- Side panel -->
     <div class="side-panel">
-        <a href="dashboard.php">Dashboard</a>
+        <a href="admin_dashboard.php">Dashboard</a>
         <a href="manage_users.php">Manage Users</a>
         <a href="manage_students.php">Manage Students</a>
         <a href="manage_teachers.php">Manage Teachers</a>
