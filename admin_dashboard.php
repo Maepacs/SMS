@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
@@ -12,9 +11,91 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        /* Side panel styles */
+        .side-panel {
+            background-color: #2c3e50;
+            width: 250px;
+            padding-top: 60px; /* Offset to account for fixed navbar */
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            color: white;
+        }
+
+        .side-panel a {
+            display: block;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .side-panel a:hover {
+            background-color: #34495e;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            padding-top: 80px; /* Offset to account for fixed navbar */
+            flex: 1;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Admin Dashboard, <?php echo $_SESSION['username']; ?>!</h1>
-    <!-- Add admin-related content here -->
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>Admin Dashboard</h1>
+    </div>
+
+    <!-- Side panel -->
+    <div class="side-panel">
+        <a href="dashboard.php">Dashboard</a>
+        <a href="manage_users.php">Manage Users</a>
+        <a href="manage_students.php">Manage Students</a>
+        <a href="manage_teachers.php">Manage Teachers</a>
+        <a href="view_reports.php">View Reports</a>
+        <a href="settings.php">Settings</a>
+        <a href="logout.php">Logout</a>
+    </div>
+
+    <!-- Main content -->
+    <div class="content">
+        <h1>Welcome to the Admin Dashboard, <?php echo $_SESSION['username']; ?>!</h1>
+        <!-- Add admin-related content here -->
+    </div>
 </body>
 </html>
