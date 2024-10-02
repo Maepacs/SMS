@@ -11,6 +11,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -83,13 +84,13 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
 
     <!-- Side panel -->
     <div class="side-panel">
-        <a href="admin_dashboard.php">Dashboard</a>
-        <a href="manage_users.php">Manage Users</a>
-        <a href="manage_students.php">Manage Students</a>
-        <a href="manage_teachers.php">Manage Teachers</a>
-        <a href="view_reports.php">View Reports</a>
-        <a href="settings.php">Settings</a>
-        <a href="logout.php">Logout</a>
+    <a href="admin_dashboard.php"><i class="ri-dashboard-line"></i> Dashboard</a>
+    <a href="manage_users.php"><i class="ri-user-3-fill"></i> Manage Users</a>
+    <a href="manage_students.php"><i class="ri-user-5-fill"></i> Manage Students</a>
+    <a href="manage_teachers.php"><i class="ri-user-2-fill"></i> Manage Teachers</a>
+    <a href="view_reports.php"><i class="ri-file-copy-2-line"></i> View Reports</a>
+    <a href="settings.php"><i class="ri-equalizer-line"></i> Settings</a>
+    <a href="logout.php"><i class="ri-logout-box-line"></i> Logout</a>
     </div>
 
     <!-- Main content -->
