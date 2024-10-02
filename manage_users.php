@@ -66,6 +66,7 @@ $result = mysqli_query($conn, $query);
             text-decoration: none;
             font-size: 1.1rem;
             margin-bottom: 5px;
+            transition: background-color 0.3s;
         }
 
         .side-panel a:hover {
@@ -82,11 +83,13 @@ $result = mysqli_query($conn, $query);
         table {
             width: 100%;
             margin-top: 20px;
+            border-collapse: collapse;
         }
 
         table, th, td {
             padding: 10px;
             text-align: left;
+            border: 1px solid #ddd;
         }
 
         th {
@@ -105,6 +108,7 @@ $result = mysqli_query($conn, $query);
             text-decoration: none;
             border-radius: 5px;
             font-size: 0.9rem;
+            transition: background-color 0.3s;
         }
 
         a.button:hover {
@@ -129,10 +133,100 @@ $result = mysqli_query($conn, $query);
             text-decoration: none;
             border-radius: 5px;
             font-size: 1rem;
+            transition: background-color 0.3s;
         }
 
         .register-btn:hover {
             background-color: #27ae60;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1001; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 400px; /* Set a fixed width */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Subtle shadow */
+        }
+
+        .modal h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Form styles */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #3498db; /* Focus border color */
+            outline: none; /* Remove outline */
+        }
+
+        button[type="submit"] {
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #2980b9; /* Darker blue on hover */
         }
     </style>
 </head>
@@ -158,7 +252,7 @@ $result = mysqli_query($conn, $query);
         <h2>User Management</h2>
 
         <!-- Register button -->
-        <a href="register.php" class="register-btn">Register New User</a>
+        <a href="#" id="registerBtn" class="register-btn">Register New User</a>
 
         <!-- User table -->
         <table id="usersTable" class="display">
@@ -196,6 +290,36 @@ $result = mysqli_query($conn, $query);
                 ?>
             </tbody>
         </table>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Register New User</h2>
+                <form id="registerForm" method="POST" action="register_user.php">
+                    <label for="fullname">Full Name:</label>
+                    <input id="fullname" name="fullname" type="text" required>
+
+                    <label for="email">Email:</label>
+                    <input id="email" name="email" type="email" required>
+
+                    <label for="username">Username:</label>
+                    <input id="username" name="username" type="text" required>
+
+                    <label for="password">Password:</label>
+                    <input id="password" name="password" type="password" required>
+
+                    <label for="role">Role:</label>
+                    <select id="role" name="role" required>
+                        <option value="teacher">Teacher</option>
+                        <option value="student">Student</option>
+                        <option value="admin">Admin</option>
+                    </select>
+
+                    <button type="submit">Register User</button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- Include jQuery and DataTables JS -->
@@ -205,6 +329,25 @@ $result = mysqli_query($conn, $query);
         $(document).ready(function() {
             // Initialize DataTable
             $('#usersTable').DataTable();
+
+            // Modal functionality
+            var modal = document.getElementById("myModal");
+            var btn = document.getElementById("registerBtn");
+            var span = document.getElementsByClassName("close")[0];
+
+            btn.onclick = function() {
+                modal.style.display = "block";
+            }
+
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
         });
     </script>
 </body>
