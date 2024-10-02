@@ -1,17 +1,15 @@
 <?php
-// Database configuration
-$host = 'localhost'; // Database host
-$dbname = 'school_management'; // Database name
-$db_username = 'root'; // Database username
-$db_password = ''; // Database password
+// Start the session
+session_start();
 
-// Create a MySQL connection
-$conn = new mysqli($host, $db_username, $db_password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Ensure only admins can access this page
+if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
+    header('Location: admin_login.php'); // Redirect to login page if not admin
+    exit();
 }
+
+// Include the database connection
+require_once 'db_connection.php';
 
 // Initialize message variable
 $success_message = "";
@@ -114,7 +112,7 @@ $conn->close();
     </div>
     <h1>Colegio San Agustin - Bacolod</h1>
     <h3>Registration</h3>
-    
+
     <!-- Display success message if set -->
     <?php if (!empty($success_message)): ?>
         <div class="success-box">
@@ -160,6 +158,6 @@ $conn->close();
         </div>
         <input class="rf--submit" type="submit" value="REGISTER">
     </form>
-    <small>Already have an account? <span><a class="lf--note" href="admin_login.php">Login Here</a></small> 
+    <small>Already have an account? <span><a class="lf--note" href="admin_login.php">Login Here</a></span></small>
 </body>
 </html>

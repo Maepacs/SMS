@@ -5,10 +5,10 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
     exit();
 }
 
-require 'db_connection.php'; // Ensure you have a connection to your MySQL database
+require 'db_connection.php'; // Connect to your database
 
 // Fetch users from the database
-$query = "SELECT id, username, first_name, last_name, email, role FROM users";
+$query = "SELECT id, username, email, role, created_at, updated_at FROM users";
 $result = mysqli_query($conn, $query);
 ?>
 <!DOCTYPE html>
@@ -17,6 +17,8 @@ $result = mysqli_query($conn, $query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users</title>
+    <!-- Include DataTables CSS and jQuery -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -78,12 +80,10 @@ $result = mysqli_query($conn, $query);
 
         table {
             width: 100%;
-            border-collapse: collapse;
             margin-top: 20px;
         }
 
         table, th, td {
-            border: 1px solid #ddd;
             padding: 10px;
             text-align: left;
         }
@@ -117,6 +117,22 @@ $result = mysqli_query($conn, $query);
         .delete-button:hover {
             background-color: #c0392b;
         }
+
+        /* Button to register new user */
+        .register-btn {
+            display: inline-block;
+            margin-bottom: 15px;
+            padding: 10px 20px;
+            background-color: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .register-btn:hover {
+            background-color: #27ae60;
+        }
     </style>
 </head>
 <body>
@@ -140,15 +156,19 @@ $result = mysqli_query($conn, $query);
     <div class="content">
         <h2>User Management</h2>
 
-        <table>
+        <!-- Register button -->
+        <a href="register.php" class="register-btn">Register New User</a>
+
+        <!-- User table -->
+        <table id="usersTable" class="display">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Username</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
                     <th>Email</th>
                     <th>Role</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -159,10 +179,10 @@ $result = mysqli_query($conn, $query);
                         echo "<tr>
                                 <td>{$row['id']}</td>
                                 <td>{$row['username']}</td>
-                                <td>{$row['first_name']}</td>
-                                <td>{$row['last_name']}</td>
                                 <td>{$row['email']}</td>
                                 <td>{$row['role']}</td>
+                                <td>{$row['created_at']}</td>
+                                <td>{$row['updated_at']}</td>
                                 <td class='actions'>
                                     <a href='edit_user.php?id={$row['id']}' class='button'>Edit</a>
                                     <a href='delete_user.php?id={$row['id']}' class='button delete-button' onclick='return confirm(\"Are you sure you want to delete this user?\");'>Delete</a>
@@ -176,6 +196,16 @@ $result = mysqli_query($conn, $query);
             </tbody>
         </table>
     </div>
+
+    <!-- Include jQuery and DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable
+            $('#usersTable').DataTable();
+        });
+    </script>
 </body>
 </html>
 
