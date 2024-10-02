@@ -317,6 +317,7 @@ $result = mysqli_query($conn, $query);
 
                     <label for="role">Role:</label>
                     <select id="role" name="role" required>
+                        <option selected disabled>Select Role</option>
                         <option value="teacher">Teacher</option>
                         <option value="student">Student</option>
                         <option value="admin">Admin</option>
