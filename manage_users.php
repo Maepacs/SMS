@@ -101,27 +101,44 @@ $result = mysqli_query($conn, $query);
             gap: 10px;
         }
 
-        a.button {
-            padding: 5px 10px;
-            background-color: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            transition: background-color 0.3s;
-        }
+       /* Button styles */
+.button {
+    padding: 5px 10px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
 
-        a.button:hover {
-            background-color: #2980b9;
-        }
+.button:hover {
+    background-color: #2980b9;
+}
 
-        .delete-button {
-            background-color: #e74c3c;
-        }
+/* Delete button */
+.delete-button {
+    background-color: #e74c3c; /* Red color */
+}
 
-        .delete-button:hover {
-            background-color: #c0392b;
-        }
+.delete-button:hover {
+    background-color: #c0392b; /* Darker red on hover */
+}
+
+/* Edit button */
+.edit-button {
+    background-color: #2ecc71; /* Green color */
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+    background-color: #27ae60; /* Darker green on hover */
+}
 
         /* Button to register new user */
         .register-btn {
@@ -237,7 +254,7 @@ $result = mysqli_query($conn, $query);
             text-align: center;
             margin-top: 20px;
         }
-        
+
         .popup {
             display: none;
             position: fixed;
@@ -312,8 +329,8 @@ $result = mysqli_query($conn, $query);
                                 <td>{$row['created_at']}</td>
                                 <td>{$row['updated_at']}</td>
                                 <td class='actions'>
-                                    <a href='#' class='button edit-button' data-id='{$row['id']}' data-username='{$row['username']}' data-email='{$row['email']}' data-role='{$row['role']}'>Edit</a>
-                                    <a href='delete_user.php?id={$row['id']}' class='button delete-button'>Delete</a>
+                                    <button class='edit-button' data-id='{$row['id']}' data-username='{$row['username']}' data-email='{$row['email']}' data-role='{$row['role']}'>Edit</button>
+                                    <a href='#' class='button delete-button' onclick='confirmDelete({$row['id']}); return false;'>Delete</a>
                                 </td>
                             </tr>";
                     }
@@ -321,44 +338,75 @@ $result = mysqli_query($conn, $query);
                 ?>
             </tbody>
         </table>
-    </div>
 
-    <!-- Popup message -->
-    <div id="popupMessage" class="popup"></div>
+        <!-- Popup message for status -->
+        <div id="popupMessage" class="popup"></div>
 
-    <!-- Modal for editing user -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Edit User</h2>
-            <form action="edit_user.php" method="post">
-                <input type="hidden" id="editId" name="id">
-                <label for="editUsername">Username:</label>
-                <input type="text" id="editUsername" name="username" required>
-                <label for="editEmail">Email:</label>
-                <input type="email" id="editEmail" name="email" required>
-                <label for="editRole">Role:</label>
-                <select id="editRole" name="role" required>
-                    <option value="admin">Admin</option>
-                    <option value="teacher">Teacher</option>
-                    <option value="student">Student</option>
-                </select>
-                <button type="submit">Update User</button>
-            </form>
+        <!-- Edit User Modal -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Edit User</h2>
+                <form id="editUserForm" method="POST" action="update_user.php">
+                    <input type="hidden" id="editId" name="id" value="">
+                    <label for="editUsername">Username:</label>
+                    <input type="text" id="editUsername" name="username" required>
+                    <label for="editEmail">Email:</label>
+                    <input type="email" id="editEmail" name="email" required>
+                    <label for="editRole">Role:</label>
+                    <select id="editRole" name="role" required>
+                        <option value="admin">Admin</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="student">Student</option>
+                    </select>
+                    <button type="submit">Update User</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Register User Modal -->
+        <div id="registerModal" class="modal">
+            <div class="modal-content">
+                <span id="registerClose" class="close">&times;</span>
+                <h2>Register User</h2>
+                <form id="registerUserForm" method="POST" action="register_user.php">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <label for="role">Role:</label>
+                    <select id="role" name="role" required>
+                        <option value="admin">Admin</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="student">Student</option>
+                    </select>
+                    <button type="submit">Register User</button>
+                </form>
+            </div>
         </div>
     </div>
 
     <!-- Include jQuery and DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-
     <script>
         $(document).ready(function() {
             $('#usersTable').DataTable();
 
+            // Confirm delete function
+            window.confirmDelete = function(userId) {
+                if (confirm("Are you sure you want to delete this user?")) {
+                    window.location.href = 'delete_user.php?id=' + userId;
+                }
+            };
+
             // Modal functionality
-            var modal = document.getElementById("editModal");
+            var editModal = document.getElementById("editModal");
+            var registerModal = document.getElementById("registerModal");
             var span = document.getElementsByClassName("close")[0];
+            var registerClose = document.getElementById("registerClose");
 
             // Handling the popup message
             const urlParams = new URLSearchParams(window.location.search);
@@ -374,18 +422,16 @@ $result = mysqli_query($conn, $query);
                     popupMessage.addClass('error show');
                 }
 
-                // Hide the popup after 3 seconds
                 setTimeout(function() {
                     popupMessage.removeClass('show');
                 }, 3000);
 
-                // Optionally remove the status query parameter from the URL after displaying the message
                 window.history.replaceState(null, '', window.location.pathname);
             }
 
-            // Modal open/close behavior
+            // Modal open/close behavior for editing
             $(".edit-button").on("click", function() {
-                modal.style.display = "block";
+                editModal.style.display = "block";
                 var userId = $(this).data("id");
                 var username = $(this).data("username");
                 var email = $(this).data("email");
@@ -397,13 +443,24 @@ $result = mysqli_query($conn, $query);
                 $("#editRole").val(role);
             });
 
+            // Modal open/close behavior for registering
+            $("#registerBtn").on("click", function() {
+                registerModal.style.display = "block";
+            });
+
             span.onclick = function() {
-                modal.style.display = "none";
-            }
+                editModal.style.display = "none";
+            };
+
+            registerClose.onclick = function() {
+                registerModal.style.display = "none";
+            };
 
             window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
+                if (event.target == editModal) {
+                    editModal.style.display = "none";
+                } else if (event.target == registerModal) {
+                    registerModal.style.display = "none";
                 }
             }
         });

@@ -316,7 +316,7 @@ $result = mysqli_query($conn, $query);
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Edit Student</h2>
-            <form action="update_user.php" method="post">
+            <form action="update_student.php" method="post">
                 <input type="hidden" id="editId" name="id">
                 <label for="editUsername">Username:</label>
                 <input type="text" id="editUsername" name="username" required>
