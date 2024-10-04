@@ -99,28 +99,46 @@ $result = mysqli_query($conn, $query);
             gap: 10px;
         }
 
-        a.button {
-            padding: 5px 10px;
-            background-color: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            transition: background-color 0.3s;
-        }
+       /* Button styles */
+       .button {
+    padding: 5px 10px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
 
-        a.button:hover {
-            background-color: #2980b9;
-        }
+.button:hover {
+    background-color: #2980b9;
+}
 
-        .delete-button {
-            background-color: #e74c3c;
-        }
+/* Delete button */
+.delete-button {
+    background-color: #e74c3c; /* Red color */
+    color: black;
 
-        .delete-button:hover {
-            background-color: #c0392b;
-        }
+}
 
+.delete-button:hover {
+    background-color: #c0392b; /* Darker red on hover */
+}
+
+/* Edit button */
+.edit-button {
+    background-color: #2ecc71; /* Green color */
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+    background-color: #27ae60; /* Darker green on hover */
+}
         .register-btn {
             display: inline-block;
             margin-bottom: 15px;
@@ -394,7 +412,7 @@ $result = mysqli_query($conn, $query);
 
             // Registration button functionality
             $("#registerBtn").on("click", function() {
-                window.location.href = 'register_teacher.php'; // Change to your registration page
+                window.location.href = 'manage_teacher.php'; // Change to your registration page
             });
         });
     </script>
