@@ -22,7 +22,7 @@ function sanitize_input($data) {
 }
 
 // Initialize error message
-$error_message = "";
+$error_message = '';
 
 // Handle the login form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -43,28 +43,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Check if the user exists
         if ($stmt->num_rows > 0) {
             $stmt->fetch();
-            
+
             // Verify the password
             if (password_verify($password, $db_password_hash)) {
-                // Set session variables
-                $_SESSION['user_id'] = $id;
-                $_SESSION['username'] = $db_username;
-                $_SESSION['role'] = $role;
-
-                // Redirect based on user role
+                // Check if the user is an admin
                 if ($role == 'admin') {
+                    // Set session variables
+                    $_SESSION['user_id'] = $id;
+                    $_SESSION['username'] = $db_username;
+                    $_SESSION['role'] = $role;
+
+                    // Redirect to admin dashboard
                     header("Location: admin_dashboard.php");
-                } elseif ($role == 'teacher') {
-                    header("Location: teacher_dashboard.php");
-                } elseif ($role == 'student') {
-                    header("Location: student_dashboard.php");
+                    exit();
+                } else {
+                    // Set session variables
+                    $_SESSION['user_id'] = $id;
+                    $_SESSION['username'] = $db_username;
+                    $_SESSION['role'] = $role;
+
+                    // Redirect to teacher or student login panel
+                    if ($role == 'teacher') {
+                        ?>
+                        <script>alert("You are not an admin, redirecting to faculty login page."); window.location.href = "faculty_login.php";</script>
+                        <?php
+                    } elseif ($role == 'student') {
+                        ?>
+                        <script>alert("You are not an admin, redirecting to student login page."); window.location.href = "stud_login.php";</script>
+                        <?php
+                    } else {
+                        ?>
+                        <script>alert("Invalid role, please contact the administrator."); window.location.href = "index.php";</script>
+                        <?php
+                    }
+                    exit();
                 }
-                exit();
             } else {
-                $error_message = "Incorrect password!";
+                $error_message = "Incorrect username or password!";
             }
         } else {
-            $error_message = "User not found!";
+            $error_message = "User  not found!";
         }
         $stmt->close();
     }
@@ -109,20 +127,20 @@ $conn->close();
         </div>
     <?php endif; ?>
 
-    <form class="login-form" method="POST" action="">
+    <form class="login-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <div class="flex-row">
             <label class="lf--label" for="username">
                 <i class="ri-user-line"></i>
             </label>
-            <input id="username" class="lf--input" name="username" placeholder="Username" type="text">
+            <input id="username" class="lf--input" name="username" placeholder="Username" type="text" required>
         </div>
         <div class="flex-row">
             <label class="lf--label" for="password">
                 <i class="ri-lock-line"></i>
             </label>
-            <input id="password" class="lf--input" name="password" placeholder="Password" type="password">
+            <input id="password" class="lf--input" name="password" placeholder="Password" type="password" required>
         </div>
-        <input class="lf--submit" type="submit" value="LOGIN">   
-     </form>
+        <input class="lf--submit" type="submit" value="LOGIN">
+    </form>
 </body>
 </html>
