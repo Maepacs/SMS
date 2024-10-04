@@ -119,6 +119,8 @@ $result = mysqli_query($conn, $query);
 /* Delete button */
 .delete-button {
     background-color: #e74c3c; /* Red color */
+    color: black;
+
 }
 
 .delete-button:hover {
@@ -146,7 +148,7 @@ $result = mysqli_query($conn, $query);
             margin-bottom: 15px;
             padding: 10px 20px;
             background-color: #2ecc71;
-            color: white;
+            color: black;
             text-decoration: none;
             border-radius: 5px;
             font-size: 1rem;
