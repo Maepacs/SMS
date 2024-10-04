@@ -7,8 +7,8 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
 
 require 'db_connection.php'; // Connect to your database
 
-// Fetch users from the database
-$query = "SELECT id, username, email, role, created_at, updated_at FROM users";
+// Fetch students from the database
+$query = "SELECT id, username, email, role, created_at, updated_at FROM users WHERE role='student'";
 $result = mysqli_query($conn, $query);
 ?>
 <!DOCTYPE html>
@@ -16,11 +16,11 @@ $result = mysqli_query($conn, $query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Users</title>
+    <title>Manage Students</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
-    <!-- Include DataTables CSS and jQuery -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
     <style>
+        /* CSS styles same as manage_users.php */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -29,7 +29,6 @@ $result = mysqli_query($conn, $query);
             min-height: 100vh;
         }
 
-        /* Navbar styles */
         .navbar {
             background-color: #333;
             color: white;
@@ -47,11 +46,10 @@ $result = mysqli_query($conn, $query);
             font-size: 1.5rem;
         }
 
-        /* Side panel styles */
         .side-panel {
             background-color: #2c3e50;
             width: 250px;
-            padding-top: 60px; /* Offset to account for fixed navbar */
+            padding-top: 60px;
             position: fixed;
             top: 0;
             left: 0;
@@ -76,7 +74,7 @@ $result = mysqli_query($conn, $query);
         .content {
             margin-left: 250px;
             padding: 20px;
-            padding-top: 80px; /* Offset to account for fixed navbar */
+            padding-top: 80px;
             flex: 1;
         }
 
@@ -123,7 +121,6 @@ $result = mysqli_query($conn, $query);
             background-color: #c0392b;
         }
 
-        /* Button to register new user */
         .register-btn {
             display: inline-block;
             margin-bottom: 15px;
@@ -140,28 +137,27 @@ $result = mysqli_query($conn, $query);
             background-color: #27ae60;
         }
 
-        /* Modal styles */
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1001; /* Sit on top */
+            display: none;
+            position: fixed;
+            z-index: 1001;
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
             padding-top: 60px;
         }
 
         .modal-content {
             background-color: #fff;
-            margin: 5% auto; /* 15% from the top and centered */
+            margin: 5% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 400px; /* Set a fixed width */
-            border-radius: 8px; /* Rounded corners */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Subtle shadow */
+            width: 400px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
         .modal h2 {
@@ -184,7 +180,6 @@ $result = mysqli_query($conn, $query);
             cursor: pointer;
         }
 
-        /* Form styles */
         form {
             display: flex;
             flex-direction: column;
@@ -198,7 +193,6 @@ $result = mysqli_query($conn, $query);
 
         input[type="text"],
         input[type="email"],
-        input[type="password"],
         select {
             padding: 10px;
             margin-bottom: 10px;
@@ -210,8 +204,8 @@ $result = mysqli_query($conn, $query);
 
         input:focus,
         select:focus {
-            border-color: #3498db; /* Focus border color */
-            outline: none; /* Remove outline */
+            border-color: #3498db;
+            outline: none;
         }
 
         button[type="submit"] {
@@ -226,18 +220,9 @@ $result = mysqli_query($conn, $query);
         }
 
         button[type="submit"]:hover {
-            background-color: #2980b9; /* Darker blue on hover */
+            background-color: #2980b9;
         }
 
-        /* Loading message styles */
-        .loading-message {
-            display: none; /* Hidden by default */
-            font-size: 1.2rem;
-            color: #3498db;
-            text-align: center;
-            margin-top: 20px;
-        }
-        
         .popup {
             display: none;
             position: fixed;
@@ -267,7 +252,7 @@ $result = mysqli_query($conn, $query);
 
     <!-- Navbar -->
     <div class="navbar">
-        <h1>Manage Users</h1>
+        <h1>Manage Students</h1>
     </div>
 
     <!-- Side panel -->
@@ -282,13 +267,13 @@ $result = mysqli_query($conn, $query);
     </div>
 
     <div class="content">
-        <h2>User Management</h2>
+        <h2>Student Management</h2>
 
         <!-- Register button -->
-        <a href="#" id="registerBtn" class="register-btn">Register New User</a>
+        <a href="#" id="registerBtn" class="register-btn">Register New Student</a>
 
-        <!-- User table -->
-        <table id="usersTable" class="display">
+        <!-- Student table -->
+        <table id="studentsTable" class="display">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -326,12 +311,12 @@ $result = mysqli_query($conn, $query);
     <!-- Popup message -->
     <div id="popupMessage" class="popup"></div>
 
-    <!-- Modal for editing user -->
+    <!-- Modal for editing student -->
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Edit User</h2>
-            <form action="edit_user.php" method="post">
+            <h2>Edit Student</h2>
+            <form action="update_user.php" method="post">
                 <input type="hidden" id="editId" name="id">
                 <label for="editUsername">Username:</label>
                 <input type="text" id="editUsername" name="username" required>
@@ -341,9 +326,9 @@ $result = mysqli_query($conn, $query);
                 <select id="editRole" name="role" required>
                     <option value="admin">Admin</option>
                     <option value="teacher">Teacher</option>
-                    <option value="student">Student</option>
+                    <option value="student" selected>Student</option>
                 </select>
-                <button type="submit">Update User</button>
+                <button type="submit">Update Student</button>
             </form>
         </div>
     </div>
@@ -354,7 +339,7 @@ $result = mysqli_query($conn, $query);
 
     <script>
         $(document).ready(function() {
-            $('#usersTable').DataTable();
+            $('#studentsTable').DataTable();
 
             // Modal functionality
             var modal = document.getElementById("editModal");
@@ -367,10 +352,10 @@ $result = mysqli_query($conn, $query);
 
             if (status) {
                 if (status === 'success') {
-                    popupMessage.text('User credentials have been successfully updated!');
+                    popupMessage.text('Student credentials have been successfully updated!');
                     popupMessage.addClass('success show');
                 } else if (status === 'error') {
-                    popupMessage.text('Error updating user credentials. Please try again.');
+                    popupMessage.text('Error updating student credentials. Please try again.');
                     popupMessage.addClass('error show');
                 }
 
@@ -406,6 +391,11 @@ $result = mysqli_query($conn, $query);
                     modal.style.display = "none";
                 }
             }
+
+            // Registration button functionality
+            $("#registerBtn").on("click", function() {
+                window.location.href = 'register_student.php'; // Change to your registration page
+            });
         });
     </script>
 </body>
